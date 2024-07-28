@@ -1,15 +1,23 @@
-import { useEffect, useState } from "react";
+import { useAtom } from "jotai";
+import { useEffect } from "react";
 import Modal from "react-modal-plugin-ad";
 import { Link } from "react-router-dom";
+import {
+  dateOfBirthAtom,
+  departmentAtom,
+  isModalOpenAtom,
+  startDateAtom,
+  stateOptionsAtom,
+} from "../../atoms";
 import { states } from "../../data/states";
 import "./Home.css";
 
 const Home = () => {
-  const [stateOptions, setStateOptions] = useState([]);
-  const [department, setDepartment] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [stateOptions, setStateOptions] = useAtom(stateOptionsAtom);
+  const [department, setDepartment] = useAtom(departmentAtom);
+  const [dateOfBirth, setDateOfBirth] = useAtom(dateOfBirthAtom);
+  const [startDate, setStartDate] = useAtom(startDateAtom);
+  const [isModalOpen, setIsModalOpen] = useAtom(isModalOpenAtom);
 
   useEffect(() => {
     const options = states.map((state) => ({
@@ -17,7 +25,7 @@ const Home = () => {
       label: state.name,
     }));
     setStateOptions(options);
-  }, []);
+  }, [setStateOptions]);
 
   const saveEmployee = () => {
     const firstName = document.getElementById("first-name").value;
