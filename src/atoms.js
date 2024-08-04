@@ -5,3 +5,4 @@ export const departmentAtom = atom("");
 export const dateOfBirthAtom = atom("");
 export const startDateAtom = atom("");
 export const isModalOpenAtom = atom(false);
+export const employeesAtom = atom([]);

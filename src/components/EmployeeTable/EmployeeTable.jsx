@@ -1,14 +1,18 @@
+import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
+import { employeesAtom } from "../../atoms";
 import { formaterDateFR } from "../../utils";
+import "./EmployeeTable.css";
 
 const EmployeeTable = () => {
-  const [employees, setEmployees] = useState([]);
+  const [employees] = useAtom(employeesAtom);
+  const [search, setSearch] = useState("");
+  const [filteredEmployees, setFilteredEmployees] = useState(employees);
 
   useEffect(() => {
-    const storedEmployees = JSON.parse(localStorage.getItem("employees")) || [];
-    setEmployees(storedEmployees);
-  }, []);
+    setFilteredEmployees(employees);
+  }, [employees]);
 
   const columns = [
     { name: "First Name", selector: (row) => row.firstName, sortable: true },
@@ -30,14 +34,42 @@ const EmployeeTable = () => {
     { name: "Zip Code", selector: (row) => row.zipCode, sortable: true },
   ];
 
+  const handleSearch = (event) => {
+    const value = event.target.value;
+    setSearch(value);
+
+    const filteredData = employees.filter((employee) =>
+      Object.values(employee)
+        .join(" ")
+        .toLowerCase()
+        .includes(value.toLowerCase())
+    );
+
+    setFilteredEmployees(filteredData);
+  };
+
   return (
-    <DataTable
-      title="Employee List"
-      columns={columns}
-      data={employees}
-      pagination
-      noDataComponent="No employees available"
-    />
+    <div>
+      <DataTable
+        title="Employee List"
+        columns={columns}
+        data={filteredEmployees}
+        pagination
+        noDataComponent="No employees available"
+        subHeader
+        subHeaderComponent={
+          <div className="search-container">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={search}
+              onChange={handleSearch}
+              className="search-input"
+            />
+          </div>
+        }
+      />
+    </div>
   );
 };
 

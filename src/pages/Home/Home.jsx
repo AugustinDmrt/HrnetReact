@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import {
   dateOfBirthAtom,
   departmentAtom,
+  employeesAtom,
   isModalOpenAtom,
   startDateAtom,
   stateOptionsAtom,
@@ -18,6 +19,7 @@ const Home = () => {
   const [dateOfBirth, setDateOfBirth] = useAtom(dateOfBirthAtom);
   const [startDate, setStartDate] = useAtom(startDateAtom);
   const [isModalOpen, setIsModalOpen] = useAtom(isModalOpenAtom);
+  const [employees, setEmployees] = useAtom(employeesAtom);
 
   useEffect(() => {
     const options = states.map((state) => ({
@@ -35,8 +37,7 @@ const Home = () => {
     const state = document.getElementById("state").value;
     const zipCode = document.getElementById("zip-code").value;
 
-    const employees = JSON.parse(localStorage.getItem("employees")) || [];
-    const employee = {
+    const newEmployee = {
       firstName,
       lastName,
       dateOfBirth,
@@ -47,8 +48,8 @@ const Home = () => {
       state,
       zipCode,
     };
-    employees.push(employee);
-    localStorage.setItem("employees", JSON.stringify(employees));
+
+    setEmployees((prevEmployees) => [...prevEmployees, newEmployee]);
     setIsModalOpen(true);
   };
 

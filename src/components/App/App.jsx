@@ -5,14 +5,12 @@ import "./App.css";
 
 function App() {
   return (
-    <>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/employee-list" element={<EmployeeList />} />
-        </Routes>
-      </Router>
-    </>
+    <Router basename="/HrnetReact">
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/employee-list" element={<EmployeeList />} />
+      </Routes>
+    </Router>
   );
 }
 
